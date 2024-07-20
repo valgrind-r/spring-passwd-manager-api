@@ -66,7 +66,7 @@ public class PasswordService {
             throw new SecurityException("Invalid username or password");
         }
 
-        if (servicePasswordRepository.findByUsernameAndServiceName(username, serviceName) == null) {
+        if (!servicePasswordRepository.findByUsernameAndServiceName(username, serviceName).isPresent()) {
             throw new ResourceNotFoundException("ServicePassword not found for user: " + username + " and service: " + serviceName);
         }
 

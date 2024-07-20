@@ -20,8 +20,21 @@ public class UserService {
     private PasswordHasher passwordHasher;
 
     public User registerUser(User user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already taken");
+        }
+
+        if (user.getPassword() == null || user.getPassword().length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters long");
+        }
+
         String hashedPassword = passwordHasher.hashPassword(user.getPassword());
         user.setPassword(hashedPassword);
+
         return userRepository.save(user);
     }
 

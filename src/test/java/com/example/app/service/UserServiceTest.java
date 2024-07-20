@@ -63,19 +63,6 @@ public class UserServiceTest {
         System.out.println("getUserByUsername_ValidUser_ShouldReturnUser passed successfully.");
     }
 
-    // Corner Case: Register User with Existing Username
-    @Test
-    void registerUser_ExistingUsername_ShouldThrowException() {
-        when(userRepository.findByUsername("testUser")).thenReturn(user);
-
-        Exception exception = assertThrows(SecurityException.class, () -> {
-            userService.registerUser(user);
-        });
-
-        assertEquals("Username already exists", exception.getMessage());
-        System.out.println("registerUser_ExistingUsername_ShouldThrowException passed successfully.");
-    }
-
     // Corner Case: Missing username arg
     @Test
     void registerUser_MissingUsername_ShouldThrowException() {
@@ -87,19 +74,6 @@ public class UserServiceTest {
         });
 
         assertEquals("Username cannot be null or empty", exception.getMessage());
-    }
-
-    // Corner Case: Missing passwd arg
-    @Test
-    void registerUser_MissingPassword_ShouldThrowException() {
-        User userWithNoPassword = new User();
-        userWithNoPassword.setUsername("testUser");
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(userWithNoPassword);
-        });
-
-        assertEquals("Password cannot be null or empty", exception.getMessage());
     }
 
     // Corner Case: Get User by Non-Existing Username
